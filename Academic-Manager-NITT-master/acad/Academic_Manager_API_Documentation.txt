@@ -1,0 +1,232 @@
+ACADEMIC MANAGER API DOCUMENTATION
+
+BASE_URL = https://academic-manager-nitt.el.r.appspot.com
+
+API_URL = BASE_URL/api
+
+
+AUTHENTICATING ADMIN PIN
+    URL = API__URL/CustomAdmin
+    METHOD : GET
+    STRUCTURE OF ADMIN DATA AS A RESPONSE:
+        {
+            "adminRollNo": 
+            "adminPin": 
+        }
+    CHECK FOR CORRECT COMBINATION AND AUTHENTICATE ADMIN(CRs)
+
+
+
+
+
+
+
+ADMIN TO CREATE CLASSROOM:
+    URL = API__URL/load/classroom
+    METHOD : POST
+        BODY : FORM_DATA
+            KEY : 'rollno'
+    
+    STRUCTURE OF THE CLASSROOM_CREATED:
+        {
+            'classroom_id' :
+            'batch' :
+            'department' :
+            'section' :
+        }
+
+USER TO LOAD CLASSROOM:
+    URL = API__URL/load/classroom
+    METHOD : GET
+        QUERY_PARAMETERS : 'rollno'
+       
+        
+        
+
+
+
+ADMIN TO UPLOAD TIMETABLE:
+    URL = API__URL/load/classroom/timetable
+        METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'classroom_id' , 'semester' , 'upload_date' , 'file'
+
+    
+    STRUCTURE OF THE TIMETABLE_CREATED:
+        {
+           'timetable_id' :
+            'semester' :
+            'upload_date' :
+            'file' :
+            'classroom_id' :
+        }
+
+USER TO LOAD TIMETABLE:
+    URL = API__URL/load/classroom/timetable
+    METHOD : GET
+        QUERY_PARAMETERS : 'classroom_id' , 'semester'
+
+
+
+
+
+ADMIN TO UPLOAD SUBJECTS:
+    URL = API__URL/load/classroom/subjects
+        METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'classroom_id' , 'semester' , 'subject_code' 
+
+    
+    STRUCTURE OF THE SUBJECT_CREATED:
+        {
+            'subject_id' :      
+            'semester' :
+            'subject_code' :
+            'classroom_id'
+            
+        }
+
+USER TO LOAD SUBJECTS:
+    URL = API__URL/load/classroom/subjects
+    METHOD : GET
+        QUERY_PARAMETERS : 'classroom_id' , 'semester'
+
+
+
+
+
+ADMIN TO UPLOAD STUDY_MATERIALS:
+    URL = API__URL/load/classroom/subjects/materials
+        METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'subject_id' , 'topic' , 'file' , 'upload_date'
+
+    
+    STRUCTURE OF THE STUDY_MATERIAL_CREATED:
+        {
+            'material_id' :      
+            'topic' :
+            'file' :
+            'upload_date' : (You need not to specify,server system will generate in YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ] format)
+            'subject_id':
+            
+        }
+
+USERS TO LOAD STUDY_MATERIALS:
+    URL = API__URL/load/classroom/subjects/materials
+    METHOD : GET
+        QUERY_PARAMETERS : 'subject_id'
+
+
+
+
+
+ADMIN TO ASSIGN_ASSIGNMENT:
+    URL = API__URL/load/classroom/subjects/assignassignment
+        METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'subject_id' , 'topic' , 'file' , 'upload_date' , 'deadline'
+
+    
+    STRUCTURE OF THE ASSIGNED ASSINMENT CREATED:
+        {
+            'assignment_id' :      
+            'topic' :
+            'file' :
+            'upload_date' : (You need not to specify,server system will generate in YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ] format)
+            'deadline' : (YYYY-MM-DD HH:MM Format)
+            'subject_id':
+            
+        }
+
+USER TO LOAD ASSIGNED ASSIGNMENT :
+    URL = API__URL/load/classroom/subjects/assignassignment
+    METHOD : GET
+        QUERY_PARAMETERS : 'subject_id'
+
+
+
+
+
+ADMIN TO VIEW SUBMITTED_ASSIGNMENT:
+    URL = API__URL/load/classroom/subjects/assignassignment/submitassignment
+        METHOD : GET
+            QUERY_PARAMETERS : 'assignment_id'
+        
+
+USER TO SUBMIT ASSIGNMENTS :
+    URL = API__URL/load/classroom/subjects/assignassignment/submitassignment
+    METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'rollno' , 'file' , assigned_assignment_id' , 'submission_timestamp' 
+
+    
+    STRUCTURE OF THE ASSIGNED ASSINMENT CREATED:
+        {   'submitted_assignment_id' :
+            'rollno' :      
+            'file' :
+            'submission_timestamp' : (You need not to specify,server system will generate)
+            'assigned_assignment_id' :
+        }
+
+
+
+
+
+ADMIN TO HOST POLL:
+    URL = API__URL/load/classroom/poll
+        METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'classroom_id' , 'title' , 'option1' , 'option2' , 'option3','option4','option5','deadline'
+
+    
+    STRUCTURE OF THE POLL CREATED:
+        {   'poll_id' :
+            'classroom_id' :
+            'title' :
+            'option1' :
+            'option2' :
+            'option3' :
+            'option4' :
+            'option5' :
+            'deadline' : (YYYY-MM-DD HH:MM Format)
+        }
+
+USER TO LOAD POLL :
+    URL = API__URL/load/classroom/poll
+    METHOD : GET
+        QUERY_PARAMETERS : 'classroom_id'
+
+
+
+
+
+ADMIN TO CHECK POLL_RESPONSES :
+    URL = /load/classroom/poll/responses
+    METHOD : GET
+        QUERY_PARAMETERS : 'poll_id'
+
+        STRUCTURE OF RESPONSE:
+        {   'POLL_ID' :
+            '1' :
+            '2' :{
+            '3' :  Vote Count of each Option
+            '4' :                                }  
+            '5' :
+
+        }
+
+USER TO VOTE :
+    URL = /load/classroom/poll/responses
+        METHOD : POST
+            BODY : FORM_DATA
+                KEYS : 'poll_id' , 'rollno' , 'response'
+
+    
+    STRUCTURE OF THE CASTED VOTE BY USER:
+        {   'pollresponses_id
+            'poll_id' :
+            'rollno' :
+            'response' :
+            
+        }
